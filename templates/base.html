@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap3 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'simplesocial/css/master.css' %}">
+
+
+    <style>
+    /* Universal Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #000000;
+        color: #00fffc;
+        display: grid;
+        place-items: center;
+    }
+
+    /* Navigation Styles */
+    .navbar {
+        width: 100%;
+        background-color: #333;
+        padding: 10px 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #00fffc;
+        margin-right: 20px;
+        position: relative;
+        font-weight: 700;
+    }
+
+    .nav-link::before,
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #00fffc;
+        transform: scaleX(0);
+        transition: transform 0.25s;
+    }
+
+    .nav-link::before {
+        top: -3px;
+        transform-origin: left;
+    }
+
+    .nav-link::after {
+        bottom: -3px;
+        transform-origin: right;
+    }
+
+    .nav-link:hover::before,
+    .nav-link:hover::after,
+    .nav-link.active::before,
+    .nav-link.active::after {
+        transform: scaleX(1);
+    }
+
+    .nav-link:last-child {
+        margin-right: 0;
+    }
+
+    .logo-link {
+        font-weight: 800;
+        font-size: 20px;
+        text-decoration: none;
+        color: #00fffc;
+    }
+</style>
+</head>
+<body>
+    <nav class='navbar mynav' role='navigation' id='navbar'>
+        <div class="container">
+            <a class='nav nav-tab logo-link' href="{% url 'home' %}">Star Social</a>
+            <ul class='nav navigation'>
+                
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'post:create' %}">Post</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'groups:all' %}">Groups</a></li>    
+                    <li class="nav-item"><a class="nav-link" href="{% url 'groups:create' %}">Create Groups</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout' %}">Log Out</a></li>
+
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'groups:all' %}">Groups</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Log In</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a></li>
+                {% endif %}
+                    
+
+            </ul>
+
+        </div>
+
+    </nav>
+    <div class="container mycontent">
+        {% block content %}
+        
+        {% endblock content %}
+
+    </div>
+    <canvas id="canvas"></canvas>
+
+</body>
+<script type="text/javascript" src="{% static 'simplesocial/js/master.js' %}"></script>
+</html>
